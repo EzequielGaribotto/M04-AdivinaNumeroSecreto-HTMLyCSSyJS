@@ -1,6 +1,6 @@
 function estiljs() {
     let parrafo = document.getElementById("text");
-    let parrafoNewStyle = parrafo.style.color = "red";
+    parrafo.style.color = "red";
 }
 
 function prenValorForm() {
