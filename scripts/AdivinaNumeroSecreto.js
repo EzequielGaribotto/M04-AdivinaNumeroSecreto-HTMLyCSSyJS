@@ -12,7 +12,7 @@ function comprobarInput() {
     let inputCorrecto = false;
     if (maxIteracion > iteraciones && !victoria) {
         // Si el numero es un dígito positivo de como máximo 5 dígitos
-        if (numero > 10000 && numero < 100000) {
+        if (numero > -1 && numero < 100000) {
             // Contamos sus digitos
             let digitosCounter = 0
             for (digito in numero) {
@@ -37,7 +37,7 @@ function comprobarInput() {
             document.getElementById('invalid_input_sound').play();
         }
     } else if (maxIteracion <= iteraciones) {
-        info.innerHTML = "Has consumido todos tus intentos";
+        info.innerHTML = "Has consumido todos tus intentos. Reinicia la pagina para volver a jugar";
         document.getElementById('invalid_input_sound').play();
     } else {
         info.innerHTML = "Ya has ganado, reinicia la pagina para volver a jugar";
@@ -63,16 +63,16 @@ function insertarFila(num) {
                 if (digito == i) {
                     digitosCorrectos++
                     // Color verde
-                    nuevoDigito.style.backgroundColor = "green";
+                    nuevoDigito.style.backgroundColor = "#00cd00";
                     greenSet = true
                 } else if (!greenSet) {
                     // Color amarillo
-                    nuevoDigito.style.backgroundColor = "yellow";
+                    nuevoDigito.style.backgroundColor = "#ffd731";
                     yellowSet = true
                 }
             } else if (!greenSet && !yellowSet) {
                 // Color gris
-                nuevoDigito.style.backgroundColor = "gray";
+                nuevoDigito.style.backgroundColor = "#989898";
             }
         }
     }
@@ -88,6 +88,8 @@ function insertarFila(num) {
         numerosTop.style.alignSelf = "center";
         document.getElementById('victory_sound').play()
         victoria = true
+        document.getElementById('comprobar').style.backgroundColor = "gray";
+
     } else {
         let intentosRestantes = maxIteracion-iteraciones
         if (intentosRestantes == 0) {
