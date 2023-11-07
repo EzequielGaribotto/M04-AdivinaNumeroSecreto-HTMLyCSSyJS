@@ -4,9 +4,8 @@ var digitosCorrectos = 0
 var intentos = 5
 const maxIteracion = 5
 var victoria = false
-let info = document.getElementById('user_message')
 function comprobarInput() {
-    let info = document.getElementById('user_message')
+    let info = document.getElementById('info')
     // Leemos el input del usuario
     let input = document.getElementsByTagName("input");
     let numero = input[0].value;
@@ -20,7 +19,7 @@ function comprobarInput() {
             }
             // Si los digitos son exactamente 5 insertamos una fila
             if (digitosCounter == 5) {
-                insertarFila(numero)
+                insertarIntento(numero)
             } else {
                 // Si no tiene 5 digitos se lo decimos al usuario
                 info.innerHTML = "El numero debe tener 5 dígitos, tiene "+digitosCounter
@@ -39,22 +38,22 @@ function comprobarInput() {
     }
     input[0].value = ""
 }
-function insertarFila(fila) {
-    let info = document.getElementById('user_message')
+function insertarIntento(intento) {
+    let info = document.getElementById('info')
     intentos--
     console.log(intentos)
-    var filas = document.getElementById("filas_container");
-    var nuevaFila = document.createElement("div");
+    var result = document.getElementById("result_container");
+    var nuevoNumero = document.createElement("div");
     var digitosCorrectos = 0;
     
     for (let digito = 0; digito < 5; digito++) {
         var nuevoDigito = document.createElement("div");
-        nuevoDigito.innerHTML = fila[digito];
-        nuevaFila.appendChild(nuevoDigito);
+        nuevoDigito.innerHTML = intento[digito];
+        nuevoNumero.appendChild(nuevoDigito);
         var greenSet = false
         var yellowSet = false
         for (let i = 0; i < 5; i++) {
-            if (fila[digito] == numeroAleatorio.toString()[i]) {
+            if (intento[digito] == numeroAleatorio.toString()[i]) {
                 if (digito == i) {
                     digitosCorrectos++
                     // Color verde
@@ -70,7 +69,7 @@ function insertarFila(fila) {
                 nuevoDigito.style.backgroundColor = "#989898";
             }
         }
-        nuevoDigito.classList.add("numero");
+        nuevoDigito.classList.add("digito");
     }
     if (digitosCorrectos == 5) {
         finJuego("victoria")
@@ -82,8 +81,8 @@ function insertarFila(fila) {
             info.innerHTML = "Has acertado "+ digitosCorrectos + " digito(s). Te quedan " + intentos + " intentos";
         }
     }
-    filas.appendChild(nuevaFila)
-    nuevaFila.classList.add("fila");
+    result.appendChild(nuevoNumero)
+    nuevoNumero.classList.add("numero");
 }
 
 
@@ -101,10 +100,10 @@ function playSound(sound) {
 
 function finJuego(estado) {
     if (estado == "victoria") {
-        document.getElementById('user_message').innerHTML = "Has acertado, enhorabuena!";
+        document.getElementById('info').innerHTML = "Has acertado, enhorabuena!";
         victoria = true
     } else if (estado == "derrota") {
-        document.getElementById('user_message').innerHTML = "No ha habido suerte :("
+        document.getElementById('info').innerHTML = "No ha habido suerte :("
     }
     mostrarNumeroSecreto()
     playSound(estado)
@@ -113,6 +112,6 @@ function finJuego(estado) {
 
 function mostrarNumeroSecreto() {
     for (let i = 0; i < 5; i++) {
-        document.getElementsByClassName('numeros')[i].innerHTML = numeroAleatorio.toString()[i]
+        document.getElementsByClassName('n_secreto')[i].innerHTML = numeroAleatorio.toString()[i]
     }
 }
