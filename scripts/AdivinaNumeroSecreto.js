@@ -128,8 +128,13 @@ function finJuego(estado) {
         let gifHollyMolly = document.createElement("img");
         gifHollyMolly.src = "./../images/holy-moly.gif"
         document.getElementById('info').appendChild(gifHollyMolly)
+        gifHollyMolly.addEventListener('click', function () {playSound("victoria");});
     } else if (estado == "derrota") {
         document.getElementById('info').innerHTML = "No ha habido suerte :("
+        let gifSpongibobSad = document.createElement("img");
+        gifSpongibobSad.src = "./../images/spongibob-sad.gif"
+        document.getElementById('info').appendChild(gifSpongibobSad)
+        gifSpongibobSad.addEventListener('click', function () {playSound("derrota");});
     }
     mostrarNumeroSecreto()
     playSound(estado)
