@@ -151,13 +151,11 @@ function mostrarNumeroSecreto() {
 function inputBackgroundChange(isFocused) {
     let inputField = document.getElementById('input_usuario')
     if (isFocused) {
-        inputField.style.backgroundColor = "#989898";
-        inputField.style.color = "white";
+        inputField.style.backgroundColor = "#BABABA";
         inputField.style.outline = "none";
         inputField.placeholder = ""
     } else {
         inputField.style.backgroundColor = ""; // Restablecer al valor predeterminado
-        inputField.style.color = ""; 
         inputField.placeholder = "01234"
     }
 }
