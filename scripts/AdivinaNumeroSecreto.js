@@ -1,17 +1,27 @@
-const numeroAleatorio = Math.floor(10000 + Math.random() * 90000);
+// SECCION CODIGO
+// - Creamos un numero aleatorio, lo mostramos en el log
+let numeroAleatorio = Math.floor(Math.random() * 100000);
+// Ponemos ceros a la izquierda si el numero random no es de 5 digitos
+numeroAleatorio = numeroAleatorio.toString().padStart(5,'0');
 console.log(numeroAleatorio)
-var digitosCorrectos = 0
+// Iniciamos el contador de digitos correctos y las iteraciones
+let digitosCorrectos = 0
 const maxIteracion = 5
-var intentos = maxIteracion
-var victoria = false
+let intentos = maxIteracion
+// Inicamos el valor de victoria
+let victoria = false
 
+// SECCION COMPROBAR & INFO
+// - Esta funcion comprobara que el input del usuario sea un numero positivo de 5 digitos
+// - Informará al usuario sobre el estado de la comprobacion
 function comprobarInput() {
     let info = document.getElementById('info')
     // Leemos el input del usuario
     let input = document.getElementsByTagName("input");
     let numero = input[0].value;
+    // Si el usuario tiene intentos restantes y no ha ganado aún
     if (intentos != 0 && !victoria) {
-        // Si el numero es un dígito positivo de como máximo 5 dígitos
+        // Y si el numero es un dígito de como máximo 5 dígitos
         if (numero > -1 && numero < 100000) {
             // Contamos sus digitos
             let digitosCounter = 0
@@ -31,23 +41,32 @@ function comprobarInput() {
             info.innerHTML = "Input incorrecto, introduce un numero positivo de 5 dígitos"
             playSound("bonk")
         }
+    // Si el usuario se ha quedado sin intentos
     } else if (intentos == 0) {
         info.innerHTML = "Has consumido todos tus intentos. Reinicia la pagina para volver a jugar";
         playSound("bonk")
-    } else {
+    // Si el usuario ya ha ganado
+    } else if (victoria){
         info.innerHTML = "Ya has ganado, reinicia la pagina para volver a jugar";
     }
+    // Vaciamos el input del usuario para que vuelva a escribir
     input[0].value = ""
 }
 
+
+// SECCION RESULT 
+// - Si el input del usuario es correcto, pasamos a la sección result
+// - Por cada input añadimos una fila
+// - La fila tendrá 5 celdas coloreadas de verde, amarillo o gris, en funcion de si
+//   estan en el numero aleatorio o no, y si la posicion es exactamente la misma
 function insertarIntento(intento) {
+
     let info = document.getElementById('info')
     intentos--
-    console.log(intentos)
     let result = document.getElementById("result_container");
     let nuevoNumero = document.createElement("div");
     let digitosCorrectos = 0;
-    
+    // Determinamos el color para cada celda que contendra un digito
     for (let digito = 0; digito < 5; digito++) {
 
         // Leemos cada digito del intento
@@ -57,7 +76,7 @@ function insertarIntento(intento) {
         nuevoNumero.appendChild(nuevoDigito);
         
 
-        // Iniciamos los booleanos 
+        // Iniciamos los booleanos que usaremos para que no se cambien los colores de manera incorrecta
         let greenSet = false
         let yellowSet = false
 
@@ -100,12 +119,13 @@ function insertarIntento(intento) {
             info.innerHTML = "Has acertado "+ digitosCorrectos + " digito(s). Te quedan " + intentos + " intentos";
         }
     }
-    // Agregamos la fila del numero al resultado
+    // Agregamos la fila con sus 5 celdas al resultado
     result.appendChild(nuevoNumero)
     nuevoNumero.classList.add("numero");
 }
 
 // Funcion para reproducir sonidos
+// - Simplemente reproduce un sonido en funcion del parametro con el que se llama a la funcion
 function playSound(sound) {
     if (sound == "victoria") {
         document.getElementById('victory_sound').play();
@@ -119,23 +139,28 @@ function playSound(sound) {
 }
 
 // Funcion para modificar HTML en funcion del estado del final del juego
+// - En funcion del parametro (victoria | derrota) con el que llamamos a la funcion, hará unas cosas u otras
 function finJuego(estado) {
+    // Si el usuario ha ganado
     if (estado == "victoria") {
+        // Informamos al usuario de su victoria, añadimos un gif a la seccion INFO
         document.getElementById('info').innerHTML = "Has acertado, enhorabuena!";
-        victoria = true
-
-        // Mostrar gif holy moly en la seccion de informacion
         let gifHollyMolly = document.createElement("img");
         gifHollyMolly.src = "./../images/holy-moly.gif"
         document.getElementById('info').appendChild(gifHollyMolly)
         gifHollyMolly.addEventListener('click', function () {playSound("victoria");});
+        victoria = true
+    // Si el usuario ha perdido
     } else if (estado == "derrota") {
+        // Informamos al usuario de su derrota, añadimos un gif a la seccion INFO
         document.getElementById('info').innerHTML = "No ha habido suerte :("
         let gifSpongibobSad = document.createElement("img");
         gifSpongibobSad.src = "./../images/spongibob-sad.gif"
         document.getElementById('info').appendChild(gifSpongibobSad)
         gifSpongibobSad.addEventListener('click', function () {playSound("derrota");});
     }
+
+    // Mostramos el numero secreto, reproducimos un sonido y cambiamos el color del boton comprobar a gris
     mostrarNumeroSecreto()
     playSound(estado)
     document.getElementById('comprobar').style.backgroundColor = "gray";
@@ -148,10 +173,12 @@ function mostrarNumeroSecreto() {
     }
 }
 
+// Funcion para personalizar el color de fondo y el placeholder en funcion de si el espacio del input está focused o blurred
 function inputBackgroundChange(isFocused) {
     let inputField = document.getElementById('input_usuario')
     if (isFocused) {
         inputField.style.backgroundColor = "#BABABA";
+        // Tambien usamos esto para quitar el borde que viene por defecto al hacer focus en el input
         inputField.style.outline = "none";
         inputField.placeholder = ""
     } else {
